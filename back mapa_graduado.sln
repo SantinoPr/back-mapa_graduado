@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "back mapa_graduado", "back mapa_graduado\back mapa_graduado.csproj", "{1C69CD17-4A82-487E-9AE1-F06D59D5E75C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1C69CD17-4A82-487E-9AE1-F06D59D5E75C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C69CD17-4A82-487E-9AE1-F06D59D5E75C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C69CD17-4A82-487E-9AE1-F06D59D5E75C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C69CD17-4A82-487E-9AE1-F06D59D5E75C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F06F5D54-9FB6-4762-9CD4-68681928F5A9}
+	EndGlobalSection
+EndGlobal
