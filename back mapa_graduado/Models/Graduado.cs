@@ -12,7 +12,19 @@ namespace back_mapa_graduado.Controllers
         private string ciudad;
         private string latitud;
         private string longitud;
-        //private Bitmap foto;
+        private dynamic foto;
+
+        public Graduado(string cuil, string nombre, string mail, string numero, string carrera, string ciudad, string latitud, string longitud)
+        {
+            this.cuil = cuil;
+            this.nombre = nombre;
+            this.mail = mail;
+            this.numero = numero;
+            this.carrera = carrera;
+            this.ciudad = ciudad;
+            this.latitud = latitud;
+            this.longitud = longitud;
+        }
 
         public string Cuil { get => cuil; set => cuil = value; }
         public string Nombre { get => nombre; set => nombre = value; }
@@ -22,7 +34,7 @@ namespace back_mapa_graduado.Controllers
         public string Ciudad { get => ciudad; set => ciudad = value; }
         public string Latitud { get => latitud; set => latitud = value; }
         public string Longitud { get => longitud; set => longitud = value; }
-        //public Bitmap Foto { get => foto; set => foto = value; }
+        public dynamic Foto { get => foto; set => foto = value; }
 
     }
 }

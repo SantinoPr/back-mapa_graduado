@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace back_mapa_graduado.Controllers
 {
@@ -6,7 +7,7 @@ namespace back_mapa_graduado.Controllers
     [Route("graduado")]
     public class GraduadoController : ControllerBase
     {
-        SortedList<string,Graduado > graduados = new SortedList<string,Graduado>();
+        static SortedList<string,Graduado > graduados = new SortedList<string,Graduado>();
 
 
         [HttpPost]
@@ -23,17 +24,35 @@ namespace back_mapa_graduado.Controllers
 
         }
 
+        [HttpPost]
+        [Route("guardar2")]
+        public ActionResult GuardarGraduado2(IFormCollection formCollection)
+        {
+            try
+            {
+                Graduado g = JsonConvert.DeserializeObject<Graduado>(formCollection["datos"]);
+                g.Foto = formCollection["imagen"];
+                graduados.Add(g.Cuil, g);
+                Console.WriteLine("Datos recibido con exito");
+            }
+            catch (Exception e) {
+                Console.WriteLine(e.ToString());    
+            
+            }
+           
+            return Ok(null);
+
+        }
+
         [HttpGet]
         [Route("listar")]
-        public dynamic ListarGraduado(string cuil)
+        public ActionResult ListarGraduado()
         {
-           if(graduados.ContainsKey(cuil))
-                return graduados[cuil];
-            return new
-            {
-                succes = true,
-                message = "Graduado no encontrado"
-            };
+           if(graduados.ContainsKey("20-45552194-8"))
+                return  Ok(graduados["20-45552194-8"]) ;
+
+           return BadRequest();
+            
         }
     }
 
