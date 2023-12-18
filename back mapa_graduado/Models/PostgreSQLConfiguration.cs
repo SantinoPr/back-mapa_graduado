@@ -1,0 +1,11 @@
+﻿namespace back_mapa_graduado.Models
+{
+    public class PostgreSQLConfiguration
+    {
+        public string ConnectionString { get; set; }    
+        public PostgreSQLConfiguration(string connectionString) 
+        {
+            ConnectionString= connectionString;
+        }
+    }
+}
