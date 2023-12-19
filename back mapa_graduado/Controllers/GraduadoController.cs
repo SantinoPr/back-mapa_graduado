@@ -8,6 +8,8 @@ using Npgsql;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using RestSharp;
+using System.Text.Json;
+using Newtonsoft.Json.Linq;
 
 namespace back_mapa_graduado.Controllers
 {
@@ -92,13 +94,32 @@ namespace back_mapa_graduado.Controllers
             return Ok(null);
 
         }
+        public class DataLogin 
+        {
+            public string Mail { get; set; }
+            public string Password { get; set; }
+        }
 
         [HttpPost]
         [Route("login")]
-        public IActionResult Login(string mail, string password) 
+        public async Task<IActionResult> Login([FromBody]DataLogin data) 
         {
-            _graduadoDataAcces.AuthenticationGraduado(mail,password);
-            return Ok();
+            try
+            {
+                Graduado g = await _graduadoDataAcces.AuthenticationGraduado(data.Mail, data.Password);
+
+                if (g != null)
+                    return Ok(JsonConvert.SerializeObject(g));
+
+            }
+            catch (Exception e)
+            { 
+                Console.WriteLine(e.ToString());    
+            }
+
+
+            return BadRequest("Credenciales incorrectas o cuenta no registrada");
+
         }
         //public async Task<ActionResult> Login(Graduado g)
         //{
@@ -109,7 +130,7 @@ namespace back_mapa_graduado.Controllers
         //            _graduadoDataAcces.
         //            NpgsqlCommand cmd = new NpgsqlCommand("validate_graduado", conex);
         //            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-        //            cmd.Parameters.Add("@email", NpgsqlTypes.NpgsqlDbType.Varchar).Value = g.Mail;
+        //            pe.Varchar).Value = g.Mail;
         //            cmd.Parameters.Add("@password", NpgsqlTypes.NpgsqlDbType.Varchar).Value = g.Password;
         //            conex.Open();
         //            NpgsqlDataReader rd = cmd.ExecuteReader();

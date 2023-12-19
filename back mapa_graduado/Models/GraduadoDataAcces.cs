@@ -60,7 +60,7 @@ namespace back_mapa_graduado.Models
             return graduados;
 
         }
-        public async void AddGraduado(Graduado g)
+        public async Task<bool> AddGraduado(Graduado g)
         {
             using (NpgsqlConnection db = DbConnection()) 
             {
@@ -85,6 +85,7 @@ namespace back_mapa_graduado.Models
                     cmd.ExecuteNonQuery();
                     
                     Console.WriteLine("Registro exitoso");
+                    return true;
 
                 }
                 catch (NpgsqlException e) 
@@ -92,6 +93,7 @@ namespace back_mapa_graduado.Models
                     Console.WriteLine(e.Message);
                 }           
             }
+            return false;
         }
 
         public Task<bool> DeleteGraduado(int id)
@@ -103,28 +105,47 @@ namespace back_mapa_graduado.Models
         {
             throw new NotImplementedException();
         }
-        public async void AuthenticationGraduado(string mail, string password)
+        public async Task<Graduado> AuthenticationGraduado(string mail, string password)
         {
+            Graduado g=null;
+
             using (NpgsqlConnection db = DbConnection())
             {
                 await db.OpenAsync();
-                NpgsqlCommand cmd = new NpgsqlCommand("login", db);
-                cmd.Parameters.AddWithValue(@"pass", password);
-                cmd.Parameters.AddWithValue(@"mail", mail);
+
                 
-                cmd.CommandType=System.Data.CommandType.StoredProcedure;
+                //pongo la consulta en ves del nombre de la funcion por un error desconocido
+                NpgsqlCommand cmd = new NpgsqlCommand("select * from login(@pass, @mail)", db);
 
-                DataTable dt = new DataTable();
+                cmd.Parameters.Add("@pass", NpgsqlTypes.NpgsqlDbType.Varchar).Value=password;
+                cmd.Parameters.Add("@mail", NpgsqlTypes.NpgsqlDbType.Varchar).Value=mail;
 
-                using (NpgsqlDataAdapter dataAdapater = new NpgsqlDataAdapter(cmd)) 
+                cmd.CommandType = System.Data.CommandType.Text;
+
+                var rd= cmd.ExecuteReader();
+
+                if (rd!=null) 
                 {
-                    dataAdapater.Fill(dt);
-                }
-                if (dt.Rows.Count > 0) 
-                {
-                    Console.WriteLine(dt);
+                    while (rd.Read())
+                    {
+                        g = new Graduado
+                        {
+                            Dni = rd["dni"].ToString(),
+                            Nombre = rd["nombre"].ToString(),
+                            Numero = rd["numero"].ToString(),
+                            Mail = rd["email"].ToString(),
+                            Password = rd["password"].ToString(),
+                            Carrera = rd["carrera"].ToString(),
+                            Pais = rd["pais"].ToString(),
+                            Provincia = rd["provincia"].ToString(),
+                            Ciudad = rd["ciudad"].ToString(),
+                            Latitud = rd["latitud"].ToString(),
+                            Longitud = rd["longitud"].ToString()
+                        };                       
+                    }
                 }
             }
+            return g;
         }
         public Task<bool> UpdateGraduado(int id)
         {

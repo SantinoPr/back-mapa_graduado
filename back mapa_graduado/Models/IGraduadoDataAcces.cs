@@ -6,8 +6,8 @@ namespace back_mapa_graduado.Models
     {
         Task<IEnumerable<Graduado>> GetAllGraduados();
         Task<Graduado> GetGraduado(int id);
-        void AddGraduado(Graduado graduado);
-        void AuthenticationGraduado(string mail, string password);
+        Task<bool> AddGraduado(Graduado graduado);
+        Task<Graduado> AuthenticationGraduado(string mail, string password);
         Task<bool> UpdateGraduado(int id);
         Task<bool> DeleteGraduado(int id);
 
